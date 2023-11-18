@@ -1,32 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import Peer, { DataConnection } from 'peerjs';
+import { useEffect, useState } from 'react';
 
+
+enum Action {
+  VOL_UP,
+  VOL_DN
+}
+interface Message {
+  action: Action
+}
+
+
+// 8e25320d-7759-469e-b019-035b48593438
 function App() {
-  const [count, setCount] = useState(0)
+  const params = new URLSearchParams(window.location.search);
+  
+  const [peer, setPeer] = useState(new Peer());
+  const [conn, setConn] = useState<DataConnection | null>(null)
+
+  function sendMessage(data: Message) {
+    conn?.send(JSON.stringify(data))
+  }
+
+
+  useEffect(() => {
+    const address = params.get('id')
+    console.log('connecting to ', address)
+    peer.on('open', () => {
+      const connection = peer.connect(address!)
+      setConn(connection)
+    })
+    
+        
+  }, [])
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <div>connected to {conn?.connectionId}</div>
+      <button className='btn' onClick={() => {
+        sendMessage({action: Action.VOL_UP})
+      }}>+</button>
+      <button className='btn' onClick={() => {
+        sendMessage({action: Action.VOL_DN})
+      }}>-</button>
     </>
   )
 }

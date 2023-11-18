@@ -642,6 +642,8 @@ dependencies = [
  "libc",
  "objc",
  "pkg-config",
+ "serde",
+ "serde_derive",
  "windows 0.51.1",
 ]
 

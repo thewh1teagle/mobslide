@@ -1,0 +1,1 @@
+export const BASE_URL = 'https://thewh1teagle.github.io/mobslide/'
