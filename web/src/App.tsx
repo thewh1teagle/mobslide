@@ -15,7 +15,8 @@ interface Message {
 function App() {
   const params = new URLSearchParams(window.location.search);
   
-  const [peer, setPeer] = useState(new Peer());
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [peer,] = useState(new Peer());
   const [conn, setConn] = useState<DataConnection | null>(null)
 
   function sendMessage(data: Message) {
@@ -32,6 +33,7 @@ function App() {
     })
     
         
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
