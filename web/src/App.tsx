@@ -1,8 +1,8 @@
 import NoSleep from "nosleep.js";
 import { useEffect, useRef, useState } from "react";
-import { useLongPress } from 'use-long-press';
+import { useLongPress } from "use-long-press";
 
-import Peer, {DataConnection} from "peerjs";
+import Peer, { DataConnection } from "peerjs";
 
 const noSleep = new NoSleep();
 enum Action {
@@ -11,120 +11,138 @@ enum Action {
   PG_UP,
   PG_DN,
   F5,
-  ESC
+  ESC,
 }
 interface Message {
   action: Action;
 }
 
 function App() {
-
   const params = new URLSearchParams(window.location.search);
 
-  
-  const peerRef = useRef<Peer>()
-  const connRef = useRef<DataConnection>()
-  const addressRef = useRef<null | string>('')
-  const checkConnectionIntervalRef = useRef<number | null>(null)
-  const connectIntervalRef = useRef<number | null>(null)
-  const [loading ,setLoading] = useState(true)
+  const peerRef = useRef<Peer>();
+  const connRef = useRef<DataConnection>();
+  const addressRef = useRef<null | string>("");
+  const checkConnectionIntervalRef = useRef<number | null>(null);
+  const connectIntervalRef = useRef<number | null>(null);
+  const [loading, setLoading] = useState(true);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
   function sendMessage(data: Message) {
-    console.log('sending => ', data)
-    navigator.vibrate(60)
+    console.log("sending => ", data);
+    navigator.vibrate(60);
     if (!noSleep.isEnabled) {
-      console.log('No sleep enabled')
-      noSleep.enable()
+      console.log("No sleep enabled");
+      noSleep.enable();
     }
-    
+
     connRef.current?.send(JSON.stringify(data));
   }
 
-  
   function reconnect() {
-
     if (checkConnectionIntervalRef.current) {
       clearInterval(checkConnectionIntervalRef.current);
     }
     if (connectIntervalRef.current) {
       clearInterval(connectIntervalRef.current);
     }
-      // reconnect
-      peerRef.current?.destroy()
-      connRef.current?.close()
-      connRef.current = undefined
-      peerRef.current = undefined
-      setLoading(true)
-      if (checkConnectionIntervalRef.current) {
-        clearInterval(checkConnectionIntervalRef.current)
-      }
-      connectIntervalRef.current = setInterval(() => connect(), 5000)
-      
+    // reconnect
+    peerRef.current?.destroy();
+    connRef.current?.close();
+    connRef.current = undefined;
+    peerRef.current = undefined;
+    setLoading(true);
+    if (checkConnectionIntervalRef.current) {
+      clearInterval(checkConnectionIntervalRef.current);
+    }
+    connectIntervalRef.current = setInterval(() => connect(), 5000);
   }
 
   function checkConnection() {
     if (!connRef.current?.peerConnection) {
       // reconnect
-      reconnect()
+      reconnect();
     }
   }
-
 
   async function createConnection() {
     return new Promise<void>((resolve, reject) => {
       console.log("connecting to ", addressRef.current);
-      peerRef.current = new Peer({host: '1.peerjs.com', debug: 3, pingInterval: 2000})
-      peerRef.current.on('open', () => {
+      peerRef.current = new Peer({
+        host: "1.peerjs.com",
+        debug: 3,
+        pingInterval: 2000,
+      });
+      peerRef.current.on("open", () => {
         if (addressRef.current) {
-          peerRef?.current?.on('error', (error) => reject(error))
-          connRef.current = peerRef.current?.connect(addressRef.current)
-          connRef.current?.on('open', () => resolve())
+          peerRef?.current?.on("error", (error) => reject(error));
+          connRef.current = peerRef.current?.connect(addressRef.current);
+          connRef.current?.on("open", () => resolve());
         }
-      })
-    })
+      });
+    });
   }
 
   async function connect() {
-
     try {
-      await createConnection()
-      
-      connRef.current?.once('iceStateChanged', state => {
-        if (state === 'disconnected' || state == 'closed' || state == 'failed') {
-          reconnect()
+      await createConnection();
+
+      connRef.current?.once("iceStateChanged", (state) => {
+        if (
+          state === "disconnected" ||
+          state == "closed" ||
+          state == "failed"
+        ) {
+          reconnect();
         }
-      })
+      });
       if (connectIntervalRef.current) {
-        clearInterval(connectIntervalRef.current!)
+        clearInterval(connectIntervalRef.current!);
       }
-      checkConnectionIntervalRef.current = setInterval(checkConnection, 1000)
-      setLoading(false)
+      checkConnectionIntervalRef.current = setInterval(checkConnection, 1000);
+      setLoading(false);
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   }
+
+  useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) {
+      switch (event.key) {
+        case "VolumeDown": {
+          sendMessage({ action: Action.PG_UP }); // previous
+          break;
+        }
+        case "VolumeUp": {
+          sendMessage({ action: Action.PG_DN }); // next
+          break;
+        }
+      }
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
 
   useEffect(() => {
     async function init() {
       addressRef.current = params.get("id");
       if (!addressRef.current) {
-        alert('Wrong address, please scan again.')
-        return
+        alert("Wrong address, please scan again.");
+        return;
       }
-      await reconnect()
+      await reconnect();
     }
-    init()
+    init();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const nextButtonBind = useLongPress(() => {
-    sendMessage({ action: Action.F5 })
+    sendMessage({ action: Action.F5 });
   });
 
   const prevButtonBind = useLongPress(() => {
-    sendMessage({ action: Action.ESC })
+    sendMessage({ action: Action.ESC });
   });
 
   if (loading) {
@@ -180,9 +198,6 @@ function App() {
           </button>
         </div>
         <div className="flex flex-col gap-5 mt-auto items-center mb-[35%]">
-
-
-
           <button
             {...nextButtonBind()}
             onClick={() => sendMessage({ action: Action.PG_DN })} // next
