@@ -1,7 +1,7 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-#[cfg(any(windows, target_os = "macos"))]
+#[cfg(windows)]
 use window_shadows::set_shadow;
 
 use tauri::Manager;
@@ -47,7 +47,7 @@ fn main() {
         .setup(|app| {
             let window = app.get_window("main").unwrap();
             
-            #[cfg(any(windows, target_os = "macos"))]
+            #[cfg(windows)]
             set_shadow(&window, true).unwrap();
 
             Ok(())
