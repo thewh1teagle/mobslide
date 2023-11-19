@@ -27,7 +27,7 @@ function App() {
   const [id, ] = useLocalStorage('id', uuidv4())
   console.log('localstorage id => ', id)
   const [loading, setLoading] = useState(true);
-  const [peer, ] = useState(new Peer(id, { pingInterval: 2000 , host: '1.peerjs.com'}));
+  const [peer, ] = useState(new Peer(id, { pingInterval: 2000 , host: '0.peerjs.com', debug: 3}));
   const [conn, setConn] = useState<DataConnection | null>(null);
   const qrDiv = useRef<HTMLDivElement>(null);
 

@@ -69,7 +69,7 @@ function App() {
     return new Promise<void>((resolve, reject) => {
       console.log("connecting to ", addressRef.current);
       peerRef.current = new Peer({
-        host: "1.peerjs.com",
+        host: "0.peerjs.com",
         debug: 3,
         pingInterval: 2000,
       });
