@@ -1,7 +1,9 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+#[cfg(any(windows, target_os = "macos"))]
 use window_shadows::set_shadow;
+
 use tauri::Manager;
 use enigo::*;
 use std::sync::Mutex;
