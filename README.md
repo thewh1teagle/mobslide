@@ -13,7 +13,7 @@ Keys:
 - `+` Volume up
 - `-` Volume down
 - `Arrow Up` Next
--  `Arrow Up Long Press` Start presentation
 - `Arrow Down` Previous
+-  `Arrow Up Long Press` Start presentation
 -  `Arrow Down Long Press` Stop presentation
 
