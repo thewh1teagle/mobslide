@@ -1,15 +1,12 @@
-import { useEffect, useRef, useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
 import { DataConnection, Peer } from "peerjs";
-import QRCodeStyling from "qr-code-styling";
-import { createQR, updateQR } from "./qr";
-import { BASE_URL } from "./config";
+import { useEffect, useRef, useState } from "react";
+import { useLocalStorage } from 'usehooks-ts';
+import { v4 as uuidv4 } from 'uuid';
 import successSvg from "./assets/success.svg";
+import { BASE_URL } from "./config";
+import { createQR } from "./qr";
 
-enum Status {
-  CONNECTED,
-  WAITING,
-}
 
 enum Action {
   VOL_UP,
@@ -23,14 +20,11 @@ interface Message {
 }
 
 function App() {
+  const [id, ] = useLocalStorage('id', uuidv4())
   const [loading, setLoading] = useState(true);
-  const [status, setStatus] = useState(Status.WAITING);
-  const [peer, setPeer] = useState(new Peer({ pingInterval: 1000 }));
-  const [id, setId] = useState("");
+  const [peer, ] = useState(new Peer(id, { pingInterval: 1000 }));
   const [conn, setConn] = useState<DataConnection | null>(null);
-  const [name, setName] = useState("");
   const qrDiv = useRef<HTMLDivElement>(null);
-  const qrRef = useRef<QRCodeStyling | null>(null);
 
   function onMessage(message: unknown) {
     const data = JSON.parse(message as string) as Message;
@@ -72,8 +66,7 @@ function App() {
   }
 
   useEffect(() => {
-    peer.on("open", (id) => {
-      setId(id);
+    peer.on("open", () => {
       console.log("creating qr");
       const url = `${BASE_URL}?id=${id}`;
       console.log("url => ", url);

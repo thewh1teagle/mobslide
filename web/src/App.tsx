@@ -1,5 +1,10 @@
 import Peer, { DataConnection } from "peerjs";
 import { useEffect, useState } from "react";
+import NoSleep from "nosleep.js";
+import { v4 as uuidv4 } from 'uuid';
+
+const noSleep = new NoSleep();
+
 
 enum Action {
   VOL_UP,
@@ -11,15 +16,21 @@ interface Message {
   action: Action;
 }
 
-// 8e25320d-7759-469e-b019-035b48593438
+
+
 function App() {
   const params = new URLSearchParams(window.location.search);
   const [loading, setLoading] = useState(true);
+  const [id,] = useState(uuidv4())
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [peer] = useState(new Peer({ pingInterval: 1000 }));
+  const [peer] = useState(new Peer(id, { pingInterval: 1000 }));
   const [conn, setConn] = useState<DataConnection | null>(null);
 
   function sendMessage(data: Message) {
+    if (!noSleep.isEnabled) {
+      console.log('No sleep enabled')
+      noSleep.enable()
+    }
     conn?.send(JSON.stringify(data));
   }
 
@@ -89,7 +100,7 @@ function App() {
         </div>
         <div className="flex flex-col gap-5 mt-auto items-center mb-[35%]">
           <button
-            onClick={() => sendMessage({ action: Action.PG_UP })}
+            onClick={() => sendMessage({ action: Action.PG_DN })} // next
             className="btn btn-circle w-[150px] h-[150px]"
           >
             <svg
@@ -108,7 +119,7 @@ function App() {
             </svg>
           </button>
           <button
-            onClick={() => sendMessage({ action: Action.PG_DN })}
+            onClick={() => sendMessage({ action: Action.PG_UP })} // prev
             className="btn btn-circle w-[80px] h-[80px]"
           >
             <svg
