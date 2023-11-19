@@ -16,7 +16,7 @@ Turn your smartphone into presentation remote controller
 
 
 # Install
-1. Simply Download `mobslide.exe` from [releases](https://github.com/thewh1teagle/mobslide/releases) on your PC and start it
+1. Simply Download `mobslide` from [releases](https://github.com/thewh1teagle/mobslide/releases) on your PC and start it
 
 # Usage
 Scan the QR code with your smartphone and open the link.
