@@ -30,6 +30,11 @@ Scan the QR code with your smartphone and open the link.
 
 -  `Arrow Down Long Press` Stop presentation
 
+# Features
+- Scan the QR code. No installation required
+- Lightweight app `~2.5M`
+- Minimal and effective design
+  
 ## Build
 ### Prerequisites
 - [Rust](https://www.rust-lang.org/tools/install)
