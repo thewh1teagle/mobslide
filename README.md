@@ -30,4 +30,13 @@ Scan the QR code with your smartphone and open the link.
 
 -  `Arrow Down Long Press` Stop presentation
 
+## Build
+### Prerequisites
+- [Rust](https://www.rust-lang.org/tools/install)
+- [Node](https://nodejs.org/en/download/current)
 
+### Development
+To run in development, execute `cargo tauri dev`.
+
+### Building
+To build for the current platform, execute `cargo tauri build`. On Windows, this will build both NSIS and MSI installers. Both function identically and are located under `src-tauri/target/release/bundle/<msi or nsis>`.
