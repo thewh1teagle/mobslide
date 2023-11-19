@@ -11,7 +11,8 @@ enum Action {
   VOL_DN,
   PG_UP,
   PG_DN,
-  F5
+  F5,
+  ESC
 }
 interface Message {
   action: Action;
@@ -30,11 +31,13 @@ function App() {
   const [conn, setConn] = useState<DataConnection | null>(null);
 
   function sendMessage(data: Message) {
+    console.log('sending => ', data)
     navigator.vibrate(60)
     if (!noSleep.isEnabled) {
       console.log('No sleep enabled')
       noSleep.enable()
     }
+    
     conn?.send(JSON.stringify(data));
   }
 
@@ -47,15 +50,23 @@ function App() {
     console.log("connecting to ", address);
     peer.on("open", () => {
       const connection = peer.connect(address!);
-      setLoading(false);
+      connection.on('open', () => {
+        setLoading(false);
+      })
       setConn(connection);
     });
+
+    
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const nextButtonBind = useLongPress(() => {
     sendMessage({ action: Action.F5 })
+  });
+
+  const prevButtonBind = useLongPress(() => {
+    sendMessage({ action: Action.ESC })
   });
 
   if (loading) {
@@ -135,6 +146,7 @@ function App() {
             </svg>
           </button>
           <button
+            {...prevButtonBind()}
             onClick={() => sendMessage({ action: Action.PG_UP })} // prev
             className="btn btn-circle w-[80px] h-[80px]"
           >

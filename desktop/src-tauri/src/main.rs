@@ -5,11 +5,6 @@ use enigo::*;
 use std::sync::Mutex;
 use tauri::State;
 
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
 
 struct Controller(Mutex<Enigo>);
 
@@ -31,6 +26,9 @@ fn press(controller: State<'_, Controller>, key: &str) {
         },
         "F5" => {
             controller.key_down(Key::F5);
+        },
+        "ESC" => {
+            controller.key_down(Key::Escape);
         }
         _ => {}
     }

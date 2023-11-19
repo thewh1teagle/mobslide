@@ -13,7 +13,8 @@ enum Action {
   VOL_DN,
   PG_UP,
   PG_DN,
-  F5
+  F5,
+  ESC
 }
 
 interface Message {
