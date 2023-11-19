@@ -6,15 +6,15 @@ use window_shadows::set_shadow;
 
 use tauri::Manager;
 use enigo::*;
-use std::sync::{Arc,Mutex};
 use tauri::State;
+use tokio::sync::Mutex;
 
 
-struct Controller(Arc<Mutex<Enigo>>);
+struct Controller(Mutex<Enigo>);
 
 #[tauri::command]
-fn press(controller: State<'_, Controller>, key: &str) {
-    let mut controller = (&controller.0).lock().unwrap();
+async fn press(controller: State<'_, Controller>, key: &str) -> Result<(), String> {
+    let mut controller = (&controller.0).lock().await;
     match key {
         "VOL_UP" => {
             controller.key_down(Key::VolumeUp);
@@ -36,6 +36,7 @@ fn press(controller: State<'_, Controller>, key: &str) {
         }
         _ => {}
     }
+    Ok(())
 }
 
 
@@ -51,7 +52,7 @@ fn main() {
 
             Ok(())
         })
-        .manage(Controller(Arc::new(Mutex::new(controller))))
+        .manage(Controller(Mutex::new(controller)))
         .invoke_handler(tauri::generate_handler![press])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
