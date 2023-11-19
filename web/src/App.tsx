@@ -1,11 +1,10 @@
-import Peer, { DataConnection } from "peerjs";
-import { useEffect, useState } from "react";
 import NoSleep from "nosleep.js";
-import { v4 as uuidv4 } from 'uuid';
+import { useEffect, useRef, useState } from "react";
 import { useLongPress } from 'use-long-press';
+
+import Peer, {DataConnection} from "peerjs";
+
 const noSleep = new NoSleep();
-
-
 enum Action {
   VOL_UP,
   VOL_DN,
@@ -18,17 +17,18 @@ interface Message {
   action: Action;
 }
 
-
-
 function App() {
 
-
   const params = new URLSearchParams(window.location.search);
-  const [loading, setLoading] = useState(true);
-  const [id,] = useState(uuidv4())
+
+  
+  const peerRef = useRef<Peer>()
+  const connRef = useRef<DataConnection>()
+  const addressRef = useRef<null | string>('')
+  const checkConnectionIntervalRef = useRef<number | null>(null)
+  const connectIntervalRef = useRef<number | null>(null)
+  const [loading ,setLoading] = useState(true)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [peer] = useState(new Peer(id, { pingInterval: 1000 }));
-  const [conn, setConn] = useState<DataConnection | null>(null);
 
   function sendMessage(data: Message) {
     console.log('sending => ', data)
@@ -38,25 +38,83 @@ function App() {
       noSleep.enable()
     }
     
-    conn?.send(JSON.stringify(data));
+    connRef.current?.send(JSON.stringify(data));
+  }
+
+  
+  function reconnect() {
+
+    if (checkConnectionIntervalRef.current) {
+      clearInterval(checkConnectionIntervalRef.current);
+    }
+    if (connectIntervalRef.current) {
+      clearInterval(connectIntervalRef.current);
+    }
+      // reconnect
+      peerRef.current?.destroy()
+      connRef.current?.close()
+      connRef.current = undefined
+      peerRef.current = undefined
+      setLoading(true)
+      if (checkConnectionIntervalRef.current) {
+        clearInterval(checkConnectionIntervalRef.current)
+      }
+      connectIntervalRef.current = setInterval(() => connect(), 5000)
+      
+  }
+
+  function checkConnection() {
+    if (!connRef.current?.peerConnection) {
+      // reconnect
+      reconnect()
+    }
+  }
+
+
+  async function createConnection() {
+    return new Promise<void>((resolve, reject) => {
+      console.log("connecting to ", addressRef.current);
+      peerRef.current = new Peer({host: '1.peerjs.com', debug: 3, pingInterval: 2000})
+      peerRef.current.on('open', () => {
+        if (addressRef.current) {
+          peerRef?.current?.on('error', (error) => reject(error))
+          connRef.current = peerRef.current?.connect(addressRef.current)
+          connRef.current?.on('open', () => resolve())
+        }
+      })
+    })
+  }
+
+  async function connect() {
+
+    try {
+      await createConnection()
+      
+      connRef.current?.once('iceStateChanged', state => {
+        if (state === 'disconnected' || state == 'closed' || state == 'failed') {
+          reconnect()
+        }
+      })
+      if (connectIntervalRef.current) {
+        clearInterval(connectIntervalRef.current!)
+      }
+      checkConnectionIntervalRef.current = setInterval(checkConnection, 1000)
+      setLoading(false)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   useEffect(() => {
-    const address = params.get("id");
-    if (!address) {
-      alert('Wrong address, please scan again.')
-      return
+    async function init() {
+      addressRef.current = params.get("id");
+      if (!addressRef.current) {
+        alert('Wrong address, please scan again.')
+        return
+      }
+      await reconnect()
     }
-    console.log("connecting to ", address);
-    peer.on("open", () => {
-      const connection = peer.connect(address!);
-      connection.on('open', () => {
-        setLoading(false);
-      })
-      setConn(connection);
-    });
-
-    
+    init()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -27,7 +27,7 @@ function App() {
   const [id, ] = useLocalStorage('id', uuidv4())
   console.log('localstorage id => ', id)
   const [loading, setLoading] = useState(true);
-  const [peer, ] = useState(new Peer(id, { pingInterval: 1000 }));
+  const [peer, ] = useState(new Peer(id, { pingInterval: 2000 , host: '1.peerjs.com'}));
   const [conn, setConn] = useState<DataConnection | null>(null);
   const qrDiv = useRef<HTMLDivElement>(null);
 
@@ -99,7 +99,7 @@ function App() {
       <span className="text-3xl mb-5">Ready to connect</span>
       <div ref={qrDiv} />
       {loading && (
-        <div className="flex items-center justify-center w-[300px] h-[300px] rounded-xl bg-neutral">
+        <div className="flex items-center justify-center w-[300px] h-[300px] rounded-xl bg-transparent shadow-xl">
           <span className="loading loading-spinner loading-lg p-0"></span>
         </div>
       )}
