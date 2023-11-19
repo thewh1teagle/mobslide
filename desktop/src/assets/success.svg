@@ -1,0 +1,20 @@
+<svg
+width="126"
+height="126"
+viewBox="0 0 126 126"
+fill="none"
+xmlns="http://www.w3.org/2000/svg"
+>
+<path
+  d="M63 126C97.7939 126 126 97.7939 126 63C126 28.2061 97.7939 0 63 0C28.2061 0 0 28.2061 0 63C0 97.7939 28.2061 126 63 126Z"
+  fill="#25AE88"
+/>
+<path
+  d="M95.52 40L55.2 85.36L30 65.2"
+  stroke="white"
+  stroke-width="2"
+  stroke-miterlimit="10"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+/>
+</svg>

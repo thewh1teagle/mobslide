@@ -23,6 +23,12 @@ fn press(controller: State<'_, Controller>, key: &str) {
         "VOL_DN" => {
             controller.key_down(Key::VolumeDown);
         },
+        "PG_UP" => {
+            controller.key_down(Key::PageUp);
+        },
+        "PG_DN" => {
+            controller.key_down(Key::PageDown);
+        },
         _ => {}
     }
 }
