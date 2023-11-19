@@ -10,10 +10,10 @@ Turn your smartphone into presentation remote controller
 # Usage
 1. Scan the QR code with your smartphone and open the link.
 Keys:
-- + Volume up
-- - Volume down
-- (Arrow Up) Next
--  (Arrow Up Long Press) Start presentation
-- (Arrow Down) Previous
--  (Arrow Down Long Press) Stop presentation
+- `+` Volume up
+- `-` Volume down
+- `Arrow Up` Next
+-  `Arrow Up Long Press` Start presentation
+- `Arrow Down` Previous
+-  `Arrow Down Long Press` Stop presentation
 
