@@ -30,7 +30,7 @@ function App() {
   const [conn, setConn] = useState<DataConnection | null>(null);
 
   function sendMessage(data: Message) {
-    navigator.vibrate(300)
+    navigator.vibrate(60)
     if (!noSleep.isEnabled) {
       console.log('No sleep enabled')
       noSleep.enable()
@@ -40,6 +40,10 @@ function App() {
 
   useEffect(() => {
     const address = params.get("id");
+    if (!address) {
+      alert('Wrong address, please scan again.')
+      return
+    }
     console.log("connecting to ", address);
     peer.on("open", () => {
       const connection = peer.connect(address!);
