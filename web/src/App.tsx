@@ -27,6 +27,7 @@ function App() {
   const [conn, setConn] = useState<DataConnection | null>(null);
 
   function sendMessage(data: Message) {
+    navigator.vibrate(100)
     if (!noSleep.isEnabled) {
       console.log('No sleep enabled')
       noSleep.enable()
