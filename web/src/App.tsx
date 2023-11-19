@@ -2,7 +2,7 @@ import Peer, { DataConnection } from "peerjs";
 import { useEffect, useState } from "react";
 import NoSleep from "nosleep.js";
 import { v4 as uuidv4 } from 'uuid';
-
+import { useLongPress } from 'use-long-press';
 const noSleep = new NoSleep();
 
 
@@ -11,6 +11,7 @@ enum Action {
   VOL_DN,
   PG_UP,
   PG_DN,
+  F5
 }
 interface Message {
   action: Action;
@@ -19,6 +20,8 @@ interface Message {
 
 
 function App() {
+
+
   const params = new URLSearchParams(window.location.search);
   const [loading, setLoading] = useState(true);
   const [id,] = useState(uuidv4())
@@ -27,7 +30,7 @@ function App() {
   const [conn, setConn] = useState<DataConnection | null>(null);
 
   function sendMessage(data: Message) {
-    navigator.vibrate(100)
+    navigator.vibrate(300)
     if (!noSleep.isEnabled) {
       console.log('No sleep enabled')
       noSleep.enable()
@@ -47,6 +50,10 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const nextButtonBind = useLongPress(() => {
+    sendMessage({ action: Action.F5 })
+  });
+
   if (loading) {
     return (
       <div className="flex flex-col gap-5 w-[100vw] h-[100vh] items-center justify-center">
@@ -59,7 +66,7 @@ function App() {
   return (
     <div className="w-full h-[100vh]">
       <div className="flex flex-col gap-1 items-center h-full">
-        <div className="flex gap-3 items-center mt-52">
+        <div className="flex gap-3 items-center mt-20">
           <button
             className="btn btn-circle w-[100px] h-[100px]"
             onClick={() => sendMessage({ action: Action.VOL_UP })}
@@ -100,7 +107,11 @@ function App() {
           </button>
         </div>
         <div className="flex flex-col gap-5 mt-auto items-center mb-[35%]">
+
+
+
           <button
+            {...nextButtonBind()}
             onClick={() => sendMessage({ action: Action.PG_DN })} // next
             className="btn btn-circle w-[150px] h-[150px]"
           >

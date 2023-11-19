@@ -29,6 +29,9 @@ fn press(controller: State<'_, Controller>, key: &str) {
         "PG_DN" => {
             controller.key_down(Key::PageDown);
         },
+        "F5" => {
+            controller.key_down(Key::F5);
+        }
         _ => {}
     }
 }
