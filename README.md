@@ -58,3 +58,16 @@ npm run dev -- --host 0.0.0.0
 
 ### Building
 To build for the current platform, execute `cargo tauri build`. On Windows, this will build both NSIS and MSI installers. Both function identically and are located under `src-tauri/target/release/bundle/<msi or nsis>`.
+
+
+### Debugging
+When developing you can see logging messages by setting ENV variable
+```
+export RUST_LOG=trace
+cargo tauri dev
+```
+
+For forther exploring, you can even try setting
+```
+RUST_BACKTRACE=1
+```

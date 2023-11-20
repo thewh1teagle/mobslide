@@ -5,12 +5,13 @@
 use window_shadows::set_shadow;
 
 use enigo::{Direction, Enigo, Key, Keyboard, Settings};
+use log::debug;
 use tauri::Manager;
 
 #[tauri::command]
 async fn press(key: String) -> Result<(), String> {
     let mut enigo = Enigo::new(&Settings::default()).unwrap();
-
+    debug!("Pressing {}", key);
     match key.as_str() {
         "VOL_UP" => {
             enigo.key(Key::VolumeUp, Direction::Click).unwrap();
