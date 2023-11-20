@@ -1,137 +1,32 @@
 import NoSleep from "nosleep.js";
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { useLongPress } from "use-long-press";
 
-import Peer, { DataConnection } from "peerjs";
-import { PEERJS_OPTIONS } from "./config";
+import { Action, usePeer } from "./usePeer";
 
 const noSleep = new NoSleep();
-enum Action {
-  VOL_UP,
-  VOL_DN,
-  PG_UP,
-  PG_DN,
-  F5,
-  ESC,
-}
-interface Message {
-  action: Action;
+
+if (!noSleep.isEnabled) {
+  console.log("No sleep enabled");
+  noSleep.enable();
 }
 
 function App() {
-  const params = new URLSearchParams(window.location.search);
-
-  const peerRef = useRef<Peer>();
-  const connRef = useRef<DataConnection>();
-  const addressRef = useRef<null | string>("");
-  const checkConnectionIntervalRef = useRef<number | null>(null);
-  const connectIntervalRef = useRef<number | null>(null);
-  const [loading, setLoading] = useState(true);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-
-  function sendMessage(data: Message) {
-    console.log("sending => ", data);
-    navigator.vibrate(60);
-    if (!noSleep.isEnabled) {
-      console.log("No sleep enabled");
-      noSleep.enable();
-    }
-
-    connRef.current?.send(JSON.stringify(data));
-  }
-
-  function reconnect() {
-    if (checkConnectionIntervalRef.current) {
-      clearInterval(checkConnectionIntervalRef.current);
-    }
-    if (connectIntervalRef.current) {
-      clearInterval(connectIntervalRef.current);
-    }
-    // reconnect
-    peerRef.current?.destroy();
-    connRef.current?.close();
-    connRef.current = undefined;
-    peerRef.current = undefined;
-    setLoading(true);
-    if (checkConnectionIntervalRef.current) {
-      clearInterval(checkConnectionIntervalRef.current);
-    }
-    connectIntervalRef.current = setInterval(() => connect(), 5000);
-  }
-
-  function checkConnection() {
-    if (!connRef.current?.peerConnection) {
-      // reconnect
-      reconnect();
-    }
-  }
-
-  async function createConnection() {
-    return new Promise<void>((resolve, reject) => {
-      console.log("connecting to ", addressRef.current);
-      peerRef.current = new Peer(PEERJS_OPTIONS);
-      peerRef.current.on("open", () => {
-        if (addressRef.current) {
-          peerRef?.current?.on("error", (error) => reject(error));
-          connRef.current = peerRef.current?.connect(addressRef.current);
-          connRef.current?.on("open", () => resolve());
-        }
-      });
-    });
-  }
-
-  async function connect() {
-    try {
-      await createConnection();
-
-      connRef.current?.once("iceStateChanged", (state) => {
-        if (
-          state === "disconnected" ||
-          state == "closed" ||
-          state == "failed"
-        ) {
-          reconnect();
-        }
-      });
-      if (connectIntervalRef.current) {
-        clearInterval(connectIntervalRef.current!);
-      }
-      checkConnectionIntervalRef.current = setInterval(checkConnection, 1000);
-      setLoading(false);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  useEffect(() => {
-    function onKeyDown(event: KeyboardEvent) {
-      switch (event.key) {
-        case "VolumeDown": {
-          sendMessage({ action: Action.PG_UP }); // previous
-          break;
-        }
-        case "VolumeUp": {
-          sendMessage({ action: Action.PG_DN }); // next
-          break;
-        }
-      }
-    }
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, []);
+  
+  const { connectWrapper, sendMessage, status } = usePeer();
 
   useEffect(() => {
     async function init() {
-      addressRef.current = params.get("id");
-      if (!addressRef.current) {
+      const params = new URLSearchParams(window.location.search);
+      const address = params.get("id");
+      if (!address) {
         alert("Wrong address, please scan again.");
-        return;
+      } else {
+        connectWrapper(address);
       }
-      await reconnect();
     }
     init();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const nextButtonBind = useLongPress(() => {
@@ -142,10 +37,10 @@ function App() {
     sendMessage({ action: Action.ESC });
   });
 
-  if (loading) {
+  if (status !== 'CONNECTED') {
     return (
       <div className="flex flex-col gap-5 w-[100vw] h-[100vh] items-center justify-center">
-        <span className="text-lg font-bold">CONNECTING</span>
+        <span className="text-lg font-bold">{status}</span>
         <span className="loading loading-spinner w-[80px]"></span>
       </div>
     );

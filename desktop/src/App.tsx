@@ -1,53 +1,19 @@
 import { invoke } from "@tauri-apps/api/tauri";
 import { useLocalStorage } from "@uidotdev/usehooks";
-import { DataConnection, Peer } from "peerjs";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import successSvg from "./assets/success.svg";
-import { BASE_URL, PEERJS_OPTIONS } from "./config";
+import { BASE_URL } from "./config";
 import { createQR } from "./qr";
-
-
-enum Action {
-  VOL_UP,
-  VOL_DN,
-  PG_UP,
-  PG_DN,
-  F5,
-  ESC
-}
-
-interface Message {
-  action: Action;
-}
-
+import { Action, usePeer } from "./usePeer";
 
 
 function App() {
   const [id, ] = useLocalStorage('id', uuidv4())
   console.log('localstorage id => ', id)
-  const [loading, setLoading] = useState(true);
-  const [peer, ] = useState(new Peer(id, PEERJS_OPTIONS));
-  const [conn, setConn] = useState<DataConnection | null>(null);
+  const {message, status} = usePeer(id, true)
   const qrDiv = useRef<HTMLDivElement>(null);
-
-  function onMessage(message: unknown) {
-    const data = JSON.parse(message as string) as Message;
-    invoke("press", { key: Action[data.action].toString() });
-  }
-
-  useEffect(() => {
-    conn?.on("data", onMessage);
-  }, [conn]);
-
-  function onConnect(connection: DataConnection) {
-    connection.on("iceStateChanged", (state) => {
-      if (state === "disconnected" || state == "closed") {
-        onDisconnect();
-      }
-    });
-    setConn(connection);
-  }
+ 
 
   async function renderQR() {
     const url = `${BASE_URL}?id=${id}`;
@@ -57,35 +23,34 @@ function App() {
     const newQR = createQR(url);
     
     const element = await newQR._getElement();
-    setLoading(false);
     if (element) {
       qrDiv.current?.appendChild(element);
     }
   }
-  async function onDisconnect() {
-    console.log("disconnected");
-    renderQR()
-
-    // qrRef?.current?.update({data: url})
-    setConn(null);
-  }
 
   useEffect(() => {
-    peer.on("open", () => {
+    console.log('status => ', status)
+    if (status === 'READY') {
       console.log("creating qr");
       const url = `${BASE_URL}?id=${id}`;
       console.log("url => ", url);
      renderQR() 
-    });
-    peer.on("connection", onConnect);
-  }, []);
+    }
+  }, [status])
+
+  useEffect(() => {
+    if (message) {
+      invoke("press", { key: Action[message.action].toString() });
+    }
+  }, [message])
+
 
   function copyURL() {
     const url = `${BASE_URL}?id=${id}`;
     navigator.clipboard.writeText(url);
   }
 
-  if (conn) {
+  if (status === 'CONNECTED') {
     return (
       <div className="flex flex-col items-center justify-center w-full h-[100vh]">
         <span className="text-3xl mb-5">CONNECTED</span>
@@ -98,7 +63,7 @@ function App() {
     <div className="flex flex-col w-[100vw] h-[100vh] items-center justify-center">
       <span className="text-3xl mb-5">Ready to connect</span>
       <div ref={qrDiv} />
-      {loading && (
+      {status === 'INIT' && (
         <div className="flex items-center justify-center w-[300px] h-[300px] rounded-xl bg-transparent shadow-xl">
           <span className="loading loading-spinner loading-lg p-0"></span>
         </div>
