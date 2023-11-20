@@ -15,6 +15,7 @@ tauri-build = { version = "1.4", features = [] }
 [dependencies]
 tauri = { version = "1.4", features = ["shell-open", "devtools"] }
 enigo = { version = "0.2.0-rc2" }
+env_logger = "0.10"
 
 
 [target.'cfg(any(windows, target_os = "macos"))'.dependencies]

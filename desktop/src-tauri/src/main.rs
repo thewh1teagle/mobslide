@@ -36,6 +36,7 @@ async fn press(key: String) -> Result<(), String> {
 }
 
 fn main() {
+    env_logger::init();
     tauri::Builder::default()
         .setup(|app| {
             let window = app.get_window("main").unwrap();
