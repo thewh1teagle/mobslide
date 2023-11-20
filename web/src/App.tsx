@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useLongPress } from "use-long-press";
 
 import Peer, { DataConnection } from "peerjs";
+import { PEERJS_OPTIONS } from "./config";
 
 const noSleep = new NoSleep();
 enum Action {
@@ -68,11 +69,7 @@ function App() {
   async function createConnection() {
     return new Promise<void>((resolve, reject) => {
       console.log("connecting to ", addressRef.current);
-      peerRef.current = new Peer({
-        host: "0.peerjs.com",
-        debug: 3,
-        pingInterval: 2000,
-      });
+      peerRef.current = new Peer(PEERJS_OPTIONS);
       peerRef.current.on("open", () => {
         if (addressRef.current) {
           peerRef?.current?.on("error", (error) => reject(error));

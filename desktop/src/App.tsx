@@ -1,11 +1,11 @@
 import { invoke } from "@tauri-apps/api/tauri";
+import { useLocalStorage } from "@uidotdev/usehooks";
 import { DataConnection, Peer } from "peerjs";
 import { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import successSvg from "./assets/success.svg";
-import { BASE_URL } from "./config";
+import { BASE_URL, PEERJS_OPTIONS } from "./config";
 import { createQR } from "./qr";
-import { useLocalStorage } from "@uidotdev/usehooks";
 
 
 enum Action {
@@ -27,7 +27,7 @@ function App() {
   const [id, ] = useLocalStorage('id', uuidv4())
   console.log('localstorage id => ', id)
   const [loading, setLoading] = useState(true);
-  const [peer, ] = useState(new Peer(id, { pingInterval: 2000 , host: '0.peerjs.com', debug: 3}));
+  const [peer, ] = useState(new Peer(id, PEERJS_OPTIONS));
   const [conn, setConn] = useState<DataConnection | null>(null);
   const qrDiv = useRef<HTMLDivElement>(null);
 
