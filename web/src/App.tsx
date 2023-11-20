@@ -12,7 +12,6 @@ if (!noSleep.isEnabled) {
 }
 
 function App() {
-  
   const { connectWrapper, sendMessage, status } = usePeer();
 
   useEffect(() => {
@@ -26,7 +25,7 @@ function App() {
       }
     }
     init();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const nextButtonBind = useLongPress(() => {
@@ -37,7 +36,7 @@ function App() {
     sendMessage({ action: Action.ESC });
   });
 
-  if (status !== 'CONNECTED') {
+  if (status !== "CONNECTED") {
     return (
       <div className="flex flex-col gap-5 w-[100vw] h-[100vh] items-center justify-center">
         <span className="text-lg font-bold">{status}</span>

@@ -36,7 +36,10 @@ function getOptions(url: string) {
   return {
     ...options,
     data: url,
-    dotsOptions: { type: "extra-rounded", color: isDark ? "white" : "black" },
+    dotsOptions: {
+      type: "extra-rounded",
+      color: isDark ? "white" : "black",
+    },
   } as Options;
 }
 

@@ -1,0 +1,8 @@
+{
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "never",
+        "source.organizeImports": true
+    },
+    "html.format.contentUnformatted": "pre,code,textarea,svg",
+}

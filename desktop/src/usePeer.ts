@@ -1,5 +1,5 @@
-import { useRef, useState, useEffect } from "react";
 import Peer, { DataConnection } from "peerjs";
+import { useEffect, useRef, useState } from "react";
 import { PEERJS_OPTIONS } from "./config";
 
 export enum Action {
