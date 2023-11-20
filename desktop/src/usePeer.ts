@@ -22,14 +22,13 @@ export function usePeer(id?: string, listener?: boolean) {
   const addressRef = useRef<null | string>("");
   const checkConnectionIntervalRef = useRef<number | null>(null);
   const connectIntervalRef = useRef<number | null>(null);
-const [message, setMessage] = useState<Message | null>()
+  const [message, setMessage] = useState<Message | null>();
 
   const [status, setStatus] = useState<Status>("INIT");
 
-
   function onMessage(message: unknown) {
     const data = JSON.parse(message as string) as Message | null;
-    setMessage(data)
+    setMessage(data);
   }
 
   function reconnect() {
@@ -67,57 +66,56 @@ const [message, setMessage] = useState<Message | null>()
       } else {
         peerRef.current = new Peer(PEERJS_OPTIONS);
       }
-      
+
       peerRef.current.on("open", () => {
-        setStatus('READY')
+        setStatus("READY");
         if (addressRef.current) {
           peerRef?.current?.on("error", (error) => reject(error));
           connRef.current = peerRef.current?.connect(addressRef.current);
           connRef.current?.on("open", () => resolve());
         }
       });
-      
     });
   }
 
   function listen() {
     if (id) {
-        peerRef.current = new Peer(id, PEERJS_OPTIONS);
-      } else {
-        peerRef.current = new Peer(PEERJS_OPTIONS);
-      }
-      
+      peerRef.current = new Peer(id, PEERJS_OPTIONS);
+    } else {
+      peerRef.current = new Peer(PEERJS_OPTIONS);
+    }
+
     peerRef.current?.on("open", () => {
-        setStatus('READY')
+      setStatus("READY");
     });
-    peerRef.current.on('connection', conn => {
-        setStatus('CONNECTED')
-        connRef.current = conn
-        connRef.current?.on('data', onMessage)
-        connRef.current.on('iceStateChanged', (state) => {
-            if (state === 'disconnected' || state === 'closed') {
-                peerRef.current?.destroy();
-                connRef.current?.close();
-                connRef.current = undefined;
-                peerRef.current = undefined;
-                listen()
-                setStatus('DISCONNECTED')
-                return
-            }
-        })
-    })
+    peerRef.current.on("connection", (conn) => {
+      setStatus("CONNECTED");
+      connRef.current = conn;
+      connRef.current?.on("data", onMessage);
+      connRef.current.on("iceStateChanged", (state) => {
+        if (state === "disconnected" || state === "closed") {
+          peerRef.current?.destroy();
+          connRef.current?.close();
+          connRef.current = undefined;
+          peerRef.current = undefined;
+          listen();
+          setStatus("DISCONNECTED");
+          return;
+        }
+      });
+    });
   }
 
   if (listener) {
     useEffect(() => {
-        listen()
-    }, [])
+      listen();
+    }, []);
   }
 
   async function connect() {
     try {
       await createConnection();
-        connRef.current?.on('data', onMessage)
+      connRef.current?.on("data", onMessage);
       connRef.current?.once("iceStateChanged", (state) => {
         if (
           state === "disconnected" ||
@@ -150,4 +148,3 @@ const [message, setMessage] = useState<Message | null>()
   }
   return { connectWrapper, sendMessage, status, message };
 }
-
