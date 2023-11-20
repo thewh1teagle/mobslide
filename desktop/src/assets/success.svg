@@ -14,7 +14,7 @@ xmlns="http://www.w3.org/2000/svg"
   stroke="white"
   stroke-width="2"
   stroke-miterlimit="10"
-  stroke-linecap="round"
+  strokeline="round"
   stroke-linejoin="round"
 />
 </svg>

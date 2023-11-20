@@ -108,7 +108,7 @@ function App() {
           stroke="currentColor"
           className="w-5 h-5"
           fill="currentColor"
-          stroke-width="0"
+          strokeWidth="0"
           viewBox="0 0 512 512"
           height="1em"
           width="1em"
@@ -120,16 +120,16 @@ function App() {
             x="128"
             y="128"
             fill="none"
-            stroke-linejoin="round"
-            stroke-width="32"
+            strokeLinejoin="round"
+            strokeWidth="32"
             rx="57"
             ry="57"
           ></rect>
           <path
             fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="32"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="32"
             d="M383.5 128l.5-24a56.16 56.16 0 00-56-56H112a64.19 64.19 0 00-64 64v216a56.16 56.16 0 0056 56h24"
           ></path>
         </svg>
