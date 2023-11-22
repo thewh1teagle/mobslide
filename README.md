@@ -24,7 +24,7 @@ Tauri for linux doesn't support webrtc so currently Linux isn't supported
 Scan the QR code with your smartphone and open the link.
 
 
-# Keys
+# Manual
 <img src="https://github.com/thewh1teagle/mobslide/assets/61390950/1c8cfbbe-b3cc-4b23-b245-858784bad59b" width="800px" height="600px" />
 
 
