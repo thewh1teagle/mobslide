@@ -23,14 +23,11 @@ Tauri for linux doesn't support webrtc so currently Linux isn't supported
 # Usage
 Scan the QR code with your smartphone and open the link.
 
-# Keys
-- `+` Volume up
-- `-` Volume down
-- `Arrow Up` Next
-- `Arrow Down` Previous
--  `Arrow Up Long Press` Start presentation
 
--  `Arrow Down Long Press` Stop presentation
+# Keys
+![image](https://github.com/thewh1teagle/mobslide/assets/61390950/1c8cfbbe-b3cc-4b23-b245-858784bad59b)
+
+
 
 # Features
 - Scan the QR code. No installation required
