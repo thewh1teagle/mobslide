@@ -13,35 +13,26 @@ cfg_if::cfg_if! {
         use log::error;
         use std::process::Command;
 
-        fn osx_volume_up() {
+        fn osx_adjust_volume(up: bool) {
+            let operator = if up { "+" } else { "-" };
             let output = Command::new("osascript")
                 .args(&[
                     "-e",
                     "set Outputvol to output volume of (get volume settings)",
                     "-e",
-                    "set volume output volume (Outputvol + 6.25)",
+                    &format!("set volume output volume (Outputvol {} 6.25)", operator),
                 ])
-                .output()
-                .expect("Failed to execute command");
+                .output();
 
-            if !output.status.success() {
-                error!("{output:?}");
-            }
-        }
-
-        fn osx_volume_down() {
-            let output = Command::new("osascript")
-            .args(&[
-                "-e",
-                "set Outputvol to output volume of (get volume settings)",
-                "-e",
-                "set volume output volume (Outputvol - 6.25)",
-            ])
-            .output()
-            .expect("Failed to execute command");
-
-            if !output.status.success() {
-                error!("{output:?}");
+            match output {
+                Ok(output) => {
+                    if !output.status.success() {
+                        error!("{:?}", output);
+                    }
+                }
+                Err(err) => {
+                    error!("Failed to execute command: {}", err);
+                }
             }
         }
     }
@@ -55,7 +46,7 @@ async fn press(key: String) -> Result<(), String> {
         "VOL_UP" => {
             cfg_if::cfg_if! {
                 if #[cfg(target_os = "macos")] {
-                    osx_volume_up();
+                    osx_adjust_volume(true);
                 } else {
                     enigo.key(Key::VolumeUp, Direction::Click).unwrap();
                 }
@@ -64,7 +55,7 @@ async fn press(key: String) -> Result<(), String> {
         "VOL_DN" => {
             cfg_if::cfg_if! {
                 if #[cfg(target_os = "macos")] {
-                    osx_volume_down();
+                    osx_adjust_volume(false);
                 } else {
                     enigo.key(Key::VolumeDown, Direction::Click).unwrap();
                 }
