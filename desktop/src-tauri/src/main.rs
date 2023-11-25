@@ -8,16 +8,67 @@ use enigo::{Direction, Enigo, Key, Keyboard, Settings};
 use log::debug;
 use tauri::Manager;
 
+cfg_if::cfg_if! {
+    if #[cfg(target_os = "macos")] {
+        use log::error;
+        use std::process::Command;
+
+        fn osx_volume_up() {
+            let output = Command::new("osascript")
+                .args(&[
+                    "-e",
+                    "set Outputvol to output volume of (get volume settings)",
+                    "-e",
+                    "set volume output volume (Outputvol + 6.25)",
+                ])
+                .output()
+                .expect("Failed to execute command");
+
+            if !output.status.success() {
+                error!("{output:?}");
+            }
+        }
+
+        fn osx_volume_down() {
+            let output = Command::new("osascript")
+            .args(&[
+                "-e",
+                "set Outputvol to output volume of (get volume settings)",
+                "-e",
+                "set volume output volume (Outputvol - 6.25)",
+            ])
+            .output()
+            .expect("Failed to execute command");
+
+            if !output.status.success() {
+                error!("{output:?}");
+            }
+        }
+    }
+}
+
 #[tauri::command]
 async fn press(key: String) -> Result<(), String> {
     let mut enigo = Enigo::new(&Settings::default()).unwrap();
     debug!("Pressing {}", key);
     match key.as_str() {
         "VOL_UP" => {
-            enigo.key(Key::VolumeUp, Direction::Click).unwrap();
+            cfg_if::cfg_if! {
+                if #[cfg(target_os = "macos")] {
+                    osx_volume_up();
+                } else {
+                    enigo.key(Key::VolumeUp, Direction::Click).unwrap();
+                }
+            }
         }
         "VOL_DN" => {
-            enigo.key(Key::VolumeDown, Direction::Click).unwrap();
+            cfg_if::cfg_if! {
+                if #[cfg(target_os = "macos")] {
+                    osx_volume_down();
+                } else {
+                    enigo.key(Key::VolumeDown, Direction::Click).unwrap();
+                }
+            }
         }
         "PG_UP" => {
             enigo.key(Key::PageUp, Direction::Click).unwrap();
