@@ -30,36 +30,21 @@ body:
     validations:
       required: true
   - type: dropdown
-    id: browsers
+    id: Operation System
     attributes:
-      label: What browsers are you seeing the problem on?
+      label: What OS are you running?
       multiple: true
       options:
-        - Chrome
-        - Firefox
-        - LibreWolf
-        - Opera
-        - Opera Gx
-        - Edge
-        - Internet
-        - Chromium
-        - Brave
-        - Vivaldi
-        - Safari
+        - Windows
+        - Linux
+        - MacOS
   - type: textarea
     id: logs
     attributes:
       label: Relevant log output
       description: |
         Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
-        If you use python enable logging by 
-        ```python
-        import logging
-        logging.basicConfig(level=logging.DEBUG)
-        ```
-        If you use rust try enabling by setting environment variable 
-        ```shell
-        RUST_LOG=trace
-        ```
+        You can run the program from the command line with
+        RUST_BACKTRACE=1 RUST_LOG=debug mobslide.exe
         
       render: shell
