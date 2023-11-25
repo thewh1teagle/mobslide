@@ -27,10 +27,11 @@ body:
       value: |
         1. step one...
         2. step two...
+        
     validations:
       required: true
   - type: dropdown
-    id: Operation System
+    id: Operation-System
     attributes:
       label: What OS are you running?
       multiple: true
