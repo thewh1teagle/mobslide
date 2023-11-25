@@ -2,7 +2,7 @@ name: Release
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
   workflow_dispatch:
 
 jobs:
@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [macos-latest, ubuntu-20.04, windows-latest]
+        platform: [macos-latest, windows-latest]
     runs-on: ${{ matrix.platform }}
     env:
       working-directory: ./desktop
@@ -34,13 +34,13 @@ jobs:
       - name: Rust cache
         uses: swatinem/rust-cache@v2
         with:
-          workspaces: './desktop/src-tauri -> target'
+          workspaces: "./desktop/src-tauri -> target"
 
       - name: Sync node version and setup cache
         uses: actions/setup-node@v4
         with:
-          node-version: 'lts/*'
-          cache: 'npm' # Set this to npm, yarn or pnpm.
+          node-version: "lts/*"
+          cache: "npm" # Set this to npm, yarn or pnpm.
           cache-dependency-path: desktop/package-lock.json
 
       - name: Install frontend dependencies
@@ -55,8 +55,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tagName: ${{ github.ref_name }} # This only works if your workflow triggers on new tags.
-          releaseName: 'mobslide v__VERSION__' # tauri-action replaces \_\_VERSION\_\_ with the app version.
-          releaseBody: 'See the assets to download and install this version.'
+          releaseName: "mobslide v__VERSION__" # tauri-action replaces \_\_VERSION\_\_ with the app version.
+          releaseBody: "See the assets to download and install this version."
           releaseDraft: true
           prerelease: false
           projectPath: ${{env.working-directory}}
