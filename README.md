@@ -20,6 +20,12 @@ Works on MacOS and Windows.
 
 Tauri for linux doesn't support webrtc so currently Linux isn't supported 
 
+# Presentation platforms
+- [Powerpoint](https://www.microsoft.com/en/microsoft-365/powerpoint)
+- [Canva](https://canva.com)
+- [Google Slides](https://slides.google.com/)
+- [KeyNote](https://www.apple.com/keynote/)
+
 # Usage
 Scan the QR code with your smartphone and open the link.
 
