@@ -1660,7 +1660,7 @@ dependencies = [
 
 [[package]]
 name = "mobslide"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "cfg-if",
  "enigo",
