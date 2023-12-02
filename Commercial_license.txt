@@ -1,0 +1,23 @@
+COMMERCIAL SOFTWARE LICENSE AGREEMENT
+
+1. LICENSE GRANT
+
+Licensor grants Licensee a non-exclusive, non-transferable license to use the software
+
+2. CONTACT FOR LICENSING
+
+For licensing inquiries and details, Licensee agrees to contact Licensor at [Your Contact Email Address] or [Your Contact Phone Number].
+
+3. RESTRICTIONS
+
+Licensee shall not:
+   a. Distribute, sublicense, or transfer the software to any third party.
+   b. Use the software for any purpose other than commercial use.
+
+4. TERM AND TERMINATION
+
+This Agreement shall commence on the effective date and continue until terminated by either party.
+
+IN WITNESS WHEREOF, the parties hereto have executed this Commercial Software License Agreement as of the Effective Date.
+
+thewh1teagle 2023
