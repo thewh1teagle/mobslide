@@ -15,6 +15,11 @@ Turn your smartphone into presentation remote controller
 # Install
 1. Simply Download `mobslide` from [releases](https://github.com/thewh1teagle/mobslide/releases) on your PC and start it
 
+# I installed, what's now?
+Open some presentation in `Powerpoint` / `Google Slides`
+
+Scan the `QR` and control it with your phone!
+
 # Supported plaforms
 Works on MacOS and Windows.
 
