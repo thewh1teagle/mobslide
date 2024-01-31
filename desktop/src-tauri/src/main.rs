@@ -44,22 +44,10 @@ async fn press(key: String) -> Result<(), String> {
     debug!("Pressing {}", key);
     match key.as_str() {
         "VOL_UP" => {
-            cfg_if::cfg_if! {
-                if #[cfg(target_os = "macos")] {
-                    osx_adjust_volume(true);
-                } else {
-                    enigo.key(Key::VolumeUp, Direction::Click).unwrap();
-                }
-            }
+            enigo.key(Key::VolumeUp, Direction::Click).unwrap();
         }
         "VOL_DN" => {
-            cfg_if::cfg_if! {
-                if #[cfg(target_os = "macos")] {
-                    osx_adjust_volume(false);
-                } else {
-                    enigo.key(Key::VolumeDown, Direction::Click).unwrap();
-                }
-            }
+            enigo.key(Key::VolumeDown, Direction::Click).unwrap();
         }
         "PG_UP" => {
             enigo.key(Key::PageUp, Direction::Click).unwrap();

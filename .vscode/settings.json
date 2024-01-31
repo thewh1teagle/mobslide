@@ -1,8 +1,8 @@
 {
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-        "source.fixAll": "never",
-        "source.organizeImports": true
-    },
-    "html.format.contentUnformatted": "pre,code,textarea,svg",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "never",
+    "source.organizeImports": "explicit"
+  },
+  "html.format.contentUnformatted": "pre,code,textarea,svg"
 }
