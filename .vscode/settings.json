@@ -2,7 +2,8 @@
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
         "source.fixAll": "never",
-        "source.organizeImports": true
+        "source.organizeImports": "explicit"
     },
     "html.format.contentUnformatted": "pre,code,textarea,svg",
+    "rust-analyzer.check.command": "clippy"
 }

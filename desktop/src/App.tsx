@@ -1,4 +1,4 @@
-import { invoke } from "@tauri-apps/api/tauri";
+import { invoke } from "@tauri-apps/api";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
