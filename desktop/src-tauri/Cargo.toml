@@ -10,14 +10,13 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [build-dependencies]
-tauri-build = { version = "2.0.0-beta", features = [] }
+tauri-build = { version = "2.0.0-beta.13", features = [] }
 
 [dependencies]
-tauri = { version = "2.0.0-beta", features = [ "devtools"] }
-enigo = { version = "0.2.0-rc2" }
+tauri = { version = "2.0.0-beta.17", features = ["devtools"] }
+enigo = { version = "0.2.0" }
 env_logger = "0.10"
-log = "0.4.20"
-cfg-if = "1.0.0"
+log = "0.4.21"
 tauri-plugin-shell = "2.0.0-beta.4"
 serde_json = "1.0.116"
 

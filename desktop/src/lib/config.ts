@@ -1,7 +1,7 @@
 import { PeerOptions } from "peerjs";
 
 export const BASE_URL =
-  import.meta.env.MODE === "development"
+  false && import.meta.env.MODE === "development"
     ? "http://localhost:5173/mobslide/"
     : "https://thewh1teagle.github.io/mobslide/";
 export const PEERJS_OPTIONS: PeerOptions = {

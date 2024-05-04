@@ -1,11 +1,11 @@
-import { invoke } from "@tauri-apps/api";
+import { invoke } from "@tauri-apps/api/core";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import successSvg from "./assets/success.svg";
-import { BASE_URL } from "./config";
-import { createQR } from "./qr";
-import { Action, usePeer } from "./usePeer";
+import { BASE_URL } from "./lib/config";
+import { createQR } from "./lib/qr";
+import { Action, usePeer } from "./lib/usePeer";
 
 function App() {
   const [id] = useLocalStorage("id", uuidv4());
