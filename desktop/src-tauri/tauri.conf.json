@@ -6,6 +6,9 @@
     "devUrl": "http://localhost:1420"
   },
   "bundle": {
+    "macOS": {
+      "signingIdentity": "-"
+    },
     "active": true,
     "targets": "all",
     "icon": [
