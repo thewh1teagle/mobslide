@@ -21,7 +21,7 @@ tauri-plugin-shell = "2.0.0-beta.4"
 serde_json = "1.0.116"
 
 
-[target.'cfg(any(windows, target_os = "linux"))'.dependencies]
+[target.'cfg(target_os = "linux")'.dependencies]
 webkit2gtk = "*"
 
 [target.'cfg(any(windows, target_os = "macos"))'.dependencies]
