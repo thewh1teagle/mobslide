@@ -1,4 +1,5 @@
 use enigo::{Direction, Enigo, Key, Keyboard, Settings};
+use serde_json::Value;
 
 #[tauri::command]
 pub async fn press(key: String) -> Result<(), String> {
@@ -26,4 +27,11 @@ pub async fn press(key: String) -> Result<(), String> {
         _ => {}
     }
     Ok(())
+}
+
+#[tauri::command]
+pub async fn package_info() -> Result<Value, String> {
+    let info =
+        serde_json::json!({"semver": env!("CARGO_PKG_VERSION"), "commit": env!("COMMIT_HASH")});
+    Ok(info)
 }

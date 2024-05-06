@@ -1,18 +1,31 @@
 import { invoke } from "@tauri-apps/api/core";
+import { open } from "@tauri-apps/plugin-shell";
 import { useLocalStorage } from "@uidotdev/usehooks";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import successSvg from "./assets/success.svg";
 import { BASE_URL } from "./lib/config";
 import { createQR } from "./lib/qr";
 import { Action, usePeer } from "./lib/usePeer";
 
+interface PkgInfo {
+  semver: string;
+  commit: string;
+}
+
 function App() {
   const [id] = useLocalStorage("id", uuidv4());
+  const [pkgInfo, setPkgInfo] = useState<null | PkgInfo>(null);
   console.log("localstorage id => ", id);
   const { message, status } = usePeer(id, true);
   const qrDiv = useRef<HTMLDivElement>(null);
 
+  async function getVersion() {
+    console.log("getting version");
+    const resp = await invoke("package_info");
+    console.log("version => ", resp);
+    setPkgInfo(resp as any);
+  }
   async function renderQR() {
     const url = `${BASE_URL}?id=${id}`;
     if (qrDiv.current) {
@@ -27,6 +40,7 @@ function App() {
   }
 
   useEffect(() => {
+    getVersion();
     console.log("status => ", status);
     if (status === "READY") {
       console.log("creating qr");
@@ -98,6 +112,12 @@ function App() {
         </svg>
         COPY URL
       </button>
+      <span
+        onClick={() => open("https://github.com/thewh1teagle/mobslide")}
+        className="absolute bottom-2 opacity-50 text-sm cursor-pointer"
+      >
+        mobslide {pkgInfo?.semver}
+      </span>
     </div>
   );
 }

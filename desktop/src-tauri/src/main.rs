@@ -14,7 +14,7 @@ fn main() {
             linux_webrtc::enable_webrtc(_app.app_handle());
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![cmd::press])
+        .invoke_handler(tauri::generate_handler![cmd::press, cmd::package_info])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
