@@ -48,6 +48,7 @@ jobs:
 
       - name: install frontend dependencies
         run: npm install # change this to npm, pnpm or bun depending on which one you use.
+        working-directory: ./desktop
 
       - uses: tauri-apps/tauri-action@v0
         env:
@@ -57,5 +58,6 @@ jobs:
           releaseName: 'v__VERSION__'
           releaseBody: 'See the assets to download this version and install.'
           releaseDraft: true
+          projectPath: ./desktop
           prerelease: false
           args: ${{ matrix.args }}
