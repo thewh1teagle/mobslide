@@ -64,7 +64,7 @@ function App() {
     navigator.clipboard.writeText(url);
   }
 
-  if (status === "CONNECTED") {
+  if (status === "CONNECTED" && isAllowed) {
     return (
       <div className="flex flex-col items-center justify-center w-full h-[100vh]">
         <span className="text-3xl mb-5">CONNECTED</span>
