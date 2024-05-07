@@ -4,9 +4,11 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 import { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import successSvg from "./assets/success.svg";
+import PermissionModal from "./components/PermissionModal";
 import { BASE_URL } from "./lib/config";
 import { createQR } from "./lib/qr";
 import { Action, usePeer } from "./lib/usePeer";
+import { useAccessibiltyPermission } from "./useAccessibilityPermission";
 
 interface PkgInfo {
   semver: string;
@@ -19,6 +21,7 @@ function App() {
   console.log("localstorage id => ", id);
   const { message, status } = usePeer(id, true);
   const qrDiv = useRef<HTMLDivElement>(null);
+  const { isAllowed, checkPermission } = useAccessibiltyPermission();
 
   async function getVersion() {
     console.log("getting version");
@@ -72,6 +75,12 @@ function App() {
 
   return (
     <div className="flex flex-col w-[100vw] h-[100vh] items-center justify-center">
+      {!isAllowed && (
+        <PermissionModal
+          checkPermission={checkPermission}
+          allowed={isAllowed}
+        />
+      )}
       <span className="text-3xl mb-5">Ready to connect</span>
       <div ref={qrDiv} />
       {status === "INIT" && (

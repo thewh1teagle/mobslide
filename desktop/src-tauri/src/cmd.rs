@@ -35,3 +35,11 @@ pub async fn package_info() -> Result<Value, String> {
         serde_json::json!({"semver": env!("CARGO_PKG_VERSION"), "commit": env!("COMMIT_HASH")});
     Ok(info)
 }
+
+#[cfg(target_os = "macos")]
+#[tauri::command]
+pub fn check_accessibility_permission(show_prompt: bool) -> Result<bool, String> {
+    use crate::permissions;
+    log::debug!("show_prompt: {}", show_prompt);
+    permissions::check_accessibility(show_prompt).map_err(|e| e.to_string())
+}

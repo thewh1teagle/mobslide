@@ -1,4 +1,5 @@
 {
+  "$schema": "../gen/schemas/capabilities.json",
   "identifier": "default",
   "description": "default permissions",
   "local": true,
@@ -14,6 +15,7 @@
     "menu:default",
     "tray:default",
     "shell:allow-open",
-    "shell:default"
+    "shell:default",
+    "os:allow-platform"
   ]
 }
