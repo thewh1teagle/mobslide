@@ -47,6 +47,13 @@ Scan the QR code with your smartphone and open the link.
 
 # Gotchas
 
+### App won't open on Windows
+
+Click the 3 dot -> then `Run anyway`
+
+<img width=200 src="https://github.com/thewh1teagle/mobslide/assets/61390950/dda9faa1-7eaf-471f-97cb-ebbf56262985">
+
+
 ### App won't open on macOS
 
 The app signed with developer key. Install it by right click -> open. then you will need to open it once again from applications in finder, with another right click. 
