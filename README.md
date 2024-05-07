@@ -44,3 +44,13 @@ Scan the QR code with your smartphone and open the link.
 - Scan the QR code. No installation required
 - Lightweight app `~2.5M`
 - Minimal and effective design
+
+# Gotchas
+
+### App won't open on macOS
+
+The app signed with developer key. Install it by right click -> open. then you will need to open it once again from applications in finder, with another right click. 
+
+### Keys doesn't work
+
+On `macOS` you will need to accept accessibility permission. if it doesn't ask open it from `System settings` -> `Privacy & Security` -> Pick mobslide and enable. 
