@@ -10,28 +10,29 @@
     "tauri": "tauri"
   },
   "dependencies": {
-    "@tauri-apps/api": "2.0.0-beta.11",
-    "@tauri-apps/plugin-os": "^2.0.0-beta.3",
-    "@tauri-apps/plugin-shell": "^2.0.0-beta.3",
+    "@tauri-apps/api": "2.0.0-beta.15",
+    "@tauri-apps/plugin-os": "^2.0.0-beta.7",
+    "@tauri-apps/plugin-shell": "^2.0.0-beta.8",
     "@uidotdev/usehooks": "^2.4.1",
-    "peerjs": "^1.5.2",
+    "peerjs": "^1.5.4",
     "qr-code-styling": "^1.6.0-rc.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "usehooks-ts": "^3.1.0",
-    "uuid": "^9.0.1"
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^2.0.0-beta.15",
-    "@types/react": "^18.3.1",
+    "npm-check-updates": "^17.0.0-6",
+    "@tauri-apps/cli": "^2.0.0-beta.22",
+    "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "@types/uuid": "^9.0.8",
-    "@vitejs/plugin-react": "^4.2.1",
+    "@types/uuid": "^10.0.0",
+    "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.19",
-    "daisyui": "^4.10.5",
-    "postcss": "^8.4.38",
+    "daisyui": "^4.12.10",
+    "postcss": "^8.4.39",
     "tailwindcss": "^3.4.3",
-    "typescript": "^5.4.5",
-    "vite": "^5.2.11"
+    "typescript": "^5.6.0-dev.20240720",
+    "vite": "^5.3.4"
   }
 }
