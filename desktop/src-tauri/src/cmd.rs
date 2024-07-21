@@ -38,8 +38,14 @@ pub async fn package_info() -> Result<Value, String> {
 
 #[cfg(target_os = "macos")]
 #[tauri::command]
-pub fn check_accessibility_permission(show_prompt: bool) -> Result<bool, String> {
+pub fn check_accessibility_permission() -> Result<bool, String> {
     use crate::permissions;
-    log::debug!("show_prompt: {}", show_prompt);
-    permissions::check_accessibility(show_prompt).map_err(|e| e.to_string())
+    permissions::check_accessibility(false).map_err(|e| e.to_string())
+}
+
+#[cfg(target_os = "macos")]
+#[tauri::command]
+pub fn open_accessibility_permission() {
+    use crate::permissions;
+    permissions::open_accessibility();
 }

@@ -10,12 +10,12 @@ export function useAccessibiltyPermission() {
   async function checkPermission(showPrompt = true) {
     const platform = await os.platform();
     if (platform === "macos") {
-      const isAllowed = await await invoke("check_accessibility_permission", {
-        showPrompt,
-      });
+      const isAllowed = await await invoke("check_accessibility_permission");
       if (isAllowed) {
         isAllowedOnce.current = true;
         clearInterval(intervalIdRef.current);
+      } else if (showPrompt) {
+        invoke("open_accessibility_permission");
       }
       setIsAllowed(isAllowed as boolean);
     }

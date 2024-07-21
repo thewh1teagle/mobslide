@@ -23,7 +23,9 @@ fn main() {
             cmd::press,
             cmd::package_info,
             #[cfg(target_os = "macos")]
-            cmd::check_accessibility_permission
+            cmd::check_accessibility_permission,
+            #[cfg(target_os = "macos")]
+            cmd::open_accessibility_permission,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

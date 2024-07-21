@@ -1788,10 +1788,12 @@ name = "mobslide"
 version = "0.0.2"
 dependencies = [
  "accessibility-sys",
+ "cocoa",
  "core-foundation-sys",
  "enigo",
  "env_logger",
  "log",
+ "objc",
  "serde_json",
  "tauri",
  "tauri-build",
