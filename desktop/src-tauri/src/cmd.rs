@@ -4,7 +4,7 @@ use serde_json::Value;
 #[tauri::command]
 pub async fn press(key: String) -> Result<(), String> {
     let mut enigo = Enigo::new(&Settings::default()).unwrap();
-    log::debug!("Pressing {}", key);
+    tracing::debug!("Pressing {}", key);
     match key.as_str() {
         "VOL_UP" => {
             enigo.key(Key::VolumeUp, Direction::Click).unwrap();

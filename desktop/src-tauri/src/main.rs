@@ -1,6 +1,8 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+
 mod cmd;
+mod logging;
 
 #[cfg(target_os = "linux")]
 mod linux_webrtc;
@@ -9,7 +11,7 @@ mod linux_webrtc;
 mod permissions;
 
 fn main() {
-    env_logger::init();
+    logging::setup_logging();
     tauri::Builder::default()
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_shell::init())

@@ -32,7 +32,7 @@ pub fn enable_webrtc(app: &tauri::AppHandle) {
                 enable_web_features(&settings);
             }
         }) {
-            log::error!("Error configuring webview: {:?}", e);
+            tracing::error!("Error configuring webview: {:?}", e);
         }
     });
 }
