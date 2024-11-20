@@ -24,6 +24,7 @@ tracing-log = "0.2.0"
 tracing-subscriber = { version = "0.3.18", features = ["env-filter", "json"] }
 
 [target.'cfg(target_os = "macos")'.dependencies]
+# Accessibility
 accessibility-sys = { version = "0.1.3" }
 core-foundation-sys = { version = "0.8.6" }
 cocoa = "0.25.0"

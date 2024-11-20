@@ -1846,7 +1846,7 @@ dependencies = [
 
 [[package]]
 name = "mobslide"
-version = "0.0.2"
+version = "0.0.0"
 dependencies = [
  "accessibility-sys",
  "cocoa 0.25.0",
