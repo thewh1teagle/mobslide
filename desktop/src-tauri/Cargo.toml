@@ -1,6 +1,6 @@
 [package]
 name = "mobslide"
-version = "1.0.0"
+version = "0.0.0"
 description = "Turn your smartphone into presentation remote controller"
 authors = ["thewh1teagle"]
 license = "MIT"
@@ -8,7 +8,7 @@ repository = "https://github.com/thewh1teagle/modslide"
 edition = "2021"
 
 [build-dependencies]
-tauri-build = { version = "2", features = [] }
+tauri-build = { version = "2" }
 
 [dependencies]
 tauri = { version = "2", features = ["devtools"] }
