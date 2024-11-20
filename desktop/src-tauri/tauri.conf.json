@@ -1,4 +1,7 @@
 {
+  "productName": "mobslide",
+  "identifier": "github.com.mobslide",
+  "version": "1.0.3",
   "build": {
     "beforeDevCommand": "npm run dev",
     "beforeBuildCommand": "npm run build",
@@ -10,7 +13,10 @@
       "signingIdentity": "-"
     },
     "active": true,
-    "targets": ["dmg", "nsis"],
+    "targets": [
+      "dmg",
+      "nsis"
+    ],
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
@@ -19,9 +25,6 @@
       "icons/icon.ico"
     ]
   },
-  "productName": "mobslide",
-  "version": "1.0.2",
-  "identifier": "github.com.mobslide",
   "plugins": {},
   "app": {
     "withGlobalTauri": false,
