@@ -35,16 +35,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Set up Node
-        uses: actions/setup-node@v3
+
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: 18
-          cache: "npm"
-          cache-dependency-path: "./web/package-lock.json"
+          bun-version: latest
+
       - name: Install dependencies
-        run: npm install
+        run: bun install
+
       - name: Build
-        run: npm run build
+        run: bun run build
+
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
