@@ -24,6 +24,8 @@ In case you want to try in your phone execute in web folder:
 npm run dev -- --host 0.0.0.0
 ```
 
+Copy the URL from the desktop app and use URL such as `http://127.0.0.1:5173/mobslide/?id=<id>` (change ID)
+
 ### Building
 
 To build for the current platform, execute `cargo tauri build`. On Windows, this will build both NSIS and MSI installers. Both function identically and are located under `src-tauri/target/release/bundle/<msi or nsis>`.

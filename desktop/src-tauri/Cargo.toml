@@ -8,7 +8,7 @@ repository = "https://github.com/thewh1teagle/modslide"
 edition = "2021"
 
 [build-dependencies]
-tauri-build = { version = "2" }
+tauri-build = { version = "2", features = [] }
 
 [dependencies]
 tauri = { version = "2", features = ["devtools"] }
