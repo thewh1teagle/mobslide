@@ -139,7 +139,7 @@ export function usePeer(id?: string, listener?: boolean) {
 
   function sendMessage(data: Message) {
     console.log("sending => ", data);
-    navigator.vibrate(60);
+    navigator?.vibrate(60);
 
     connRef.current?.send(JSON.stringify(data));
   }
