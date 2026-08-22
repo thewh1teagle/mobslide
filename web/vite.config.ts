@@ -5,4 +5,13 @@ import { defineConfig } from "vite";
 export default defineConfig({
   plugins: [react()],
   base: "/mobslide/",
+  build: {
+    rollupOptions: {
+      // Landing page at /mobslide/, phone remote at /mobslide/remote/
+      input: {
+        landing: "index.html",
+        remote: "remote/index.html",
+      },
+    },
+  },
 });

@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.btn {
+    @apply text-white;
+    @apply font-bold;
+    @apply space-x-2;
+}

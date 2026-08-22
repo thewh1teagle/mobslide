@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: ["./index.html", "./remote/index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   darkMode: ["class", '[data-theme="dark"]'],
   theme: {
     extend: {
@@ -35,6 +35,17 @@ export default {
           "warning-content": "#ffffff",
           error: "#c62828",
           "error-content": "#ffffff",
+        },
+        custom: {
+          primary: "#45AEF5",
+          secondary: "#222B3D",
+          accent: "#ff7a87",
+          neutral: "#2B3447",
+          "base-100": "#FFFFFF",
+          info: "#45AEF5",
+          success: "#009d3e",
+          warning: "#df3f00",
+          error: "#ff7a87",
         },
         light: {
           "color-scheme": "light",
