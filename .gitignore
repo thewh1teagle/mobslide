@@ -2,3 +2,4 @@ target/
 schemas/
 node_modules/
 bun.lockb
+plans/
